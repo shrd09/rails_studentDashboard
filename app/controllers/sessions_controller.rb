@@ -34,7 +34,7 @@ class SessionsController < ApplicationController
     user = User.find_by(id: user_id)
     return nil unless user
 
-    expiration_time = 5.minutes.from_now.to_i# Set the expiration time
+    expiration_time = 10.minutes.from_now.to_i# Set the expiration time
     payload = { user_id: user_id, email: user.email, exp: expiration_time }
     begin
       JWT.encode(payload,Rails.application.secret_key_base,'HS256')

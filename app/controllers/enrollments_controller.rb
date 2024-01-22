@@ -57,6 +57,9 @@ class EnrollmentsController < ApplicationController
 
 
     def update_marks
+        id = params[:user_id]
+        # byebug
+        
         @enrollment = Enrollment.find(params[:id])
 
         if @enrollment.update(marks: params[:marks])
@@ -65,11 +68,5 @@ class EnrollmentsController < ApplicationController
             render json: { error: 'Failed to update marks' }, status: :unprocessable_entity
         end
     end
-
-    
-    # private
-    # def enrollment_params
-    #     params.require(:enrollment).permit(:user_id, :course_id, :marks)
-    # end
 end
   

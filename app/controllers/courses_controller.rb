@@ -38,15 +38,22 @@ class CoursesController < ApplicationController
     end
 
     def create
+      # puts "#{teacher.inspect}"
+      # byebug
       course_name = params[:course_name]
       user_id = params[:user_id]
-
+      teacher = Teacher.find_by(user_id: user_id)
+      if teacher
       course = Course.create!(course_name: course_name,user_id: user_id)
 
-      if course
-        render json: course, status: :created
+        if course
+          render json: course, status: :created
+        else
+          render json: { error: "Failed to create course" }, status: :unprocessable_entity
+        end 
       else
-        render json: { error: "Failed to create course" }, status: :unprocessable_entity
-      end 
+        # Handle the case where the teacher with the specified user_id doesn't exist.
+        render json: { error: 'Teacher not found' }, status: :not_found
+      end
     end
 end
